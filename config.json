@@ -1,6 +1,6 @@
 {
   "name": "MySQL Cron Backup",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "slug": "mysql-cron-backup",
   "legacy": false,
   "init": false,
@@ -25,6 +25,7 @@
     "mysql_pass": "admin",
     "mysql_port": 3306,
     "mysql_db": "homeassistant",
+    "compress_backup": true,
     "TZ": "Pacific/Auckland",
     "gzip_level": 6,
     "mysqldump_opts": "--quick"
@@ -38,6 +39,7 @@
     "mysql_user": "str",
     "mysql_pass": "str",
     "mysql_db": "str",
+    "compress_backup": "bool",
     "gzip_level": "int",
     "mysqldump_opts": "str?",
     "mysql_ssl_opts": "str?",
