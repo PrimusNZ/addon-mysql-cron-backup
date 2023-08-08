@@ -60,7 +60,7 @@ do
       BASENAME=$(basename "$FILENAME")
       echo "==> Creating symlink to latest backup: $BASENAME"
       rm "$LATEST" 2> /dev/null
-      cd "$(bashio::config backup_folder)" || ln -s "$BASENAME" "$(basename "$LATEST")"
+      cd "$(bashio::config backup_folder)" && ln -s "$BASENAME" "$(basename "$LATEST")"
       if [ -n "$MAX_BACKUPS" ]
       then
         # Execute the delete script, delete older backup or other custom delete script
