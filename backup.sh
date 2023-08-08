@@ -8,13 +8,21 @@
 [ -z "${MYSQL_USER}" ] && { echo "=> MYSQL_USER cannot be empty" && exit 1; }
 # Get password: try read from file, else get from env, else get from MYSQL_PASSWORD env
 [ -z "$(bashio::config mysql_pass)" ] || { MYSQL_PASS=$(bashio::config mysql_pass); }
-[ -z "${MYSQL_PASS:=$MYSQL_PASSWORD}" ] && { echo "=> MYSQL_PASS cannot be empty" && exit 1; }
+[ -z "${MYSQL_PASS}" ] && { echo "=> MYSQL_PASS cannot be empty" && exit 1; }
 # Get database name(s): try read from file, else get from env
 # Note: when from file, there can be one database name per line in that file
 [ -z "$(bashio::config mysql_db)" ] || { MYSQL_DATABASE=$(bashio::config mysql_db); }
+[ -z "${MYSQL_DATABASE}" ] && { echo "=> MYSQL_DATABASE cannot be empty" && exit 1; }
 
 [ -z "$(bashio::config mysql_port)" ] || { MYSQL_PORT=$(bashio::config mysql_port); }
 [ -z "${MYSQL_PORT}" ] && { MYSQL_PORT=3306; }
+
+[ -z "$(bashio::config mysql_ssl_opts)" ] || { MYSQL_SSL_OPTS=$(bashio::config mysql_ssl_opts); }
+[ -z "${MYSQL_SSL_OPTS}" ] && { MYSQL_SSL_OPTS=""; }
+
+[ -z "$(bashio::config mysqldump_opts)" ] || { MYSQL_DUMP_OPTS=$(bashio::config mysqldump_opts); }
+[ -z "${MYSQL_DUMP_OPTS}" ] && { MYSQL_DUMP_OPTS=""; }
+
 # Get level from env, else use 6
 [ -z "$(bashio::config gzip_level)" ] && { GZIP_LEVEL=6; }
 
@@ -32,7 +40,7 @@ do
     echo "==> Dumping database: $db"
     FILENAME="$(bashio::config backup_folder)/$DATE.$db.sql"
     LATEST="$(bashio::config backup_folder)/latest.$db.sql"
-    if mysqldump --single-transaction $(bashio::config mysqldump_opts) -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYSQL_USER" -p"$MYSQL_PASS" $MYSQL_SSL_OPTS "$db" > "$FILENAME"
+    if mysqldump --single-transaction $MYSQL_DUMP_OPTS -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYSQL_USER" -p"$MYSQL_PASS" $MYSQL_SSL_OPTS "$db" > "$FILENAME"
     then
       EXT=
       if [ -z "${USE_PLAIN_SQL}" ]
