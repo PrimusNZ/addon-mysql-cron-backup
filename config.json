@@ -1,6 +1,6 @@
 {
   "name": "MySQL Cron Backup",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "slug": "mysql-cron-backup",
   "legacy": false,
   "init": false,

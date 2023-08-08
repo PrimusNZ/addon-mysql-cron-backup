@@ -1,17 +1,3 @@
-FROM golang:1.15.8-alpine3.12 AS binary
-RUN apk -U add openssl git
-
-ARG DOCKERIZE_VERSION=v0.6.1
-WORKDIR /go/src/github.com/jwilder
-RUN git clone https://github.com/jwilder/dockerize.git && \
-    cd dockerize && \
-    git checkout ${DOCKERIZE_VERSION}
-
-WORKDIR /go/src/github.com/jwilder/dockerize
-RUN go get github.com/robfig/glock
-RUN glock sync -n < GLOCKFILE
-RUN go install
-
 FROM alpine:3.18.2
 LABEL maintainer "Fco. Javier Delgado del Hoyo <frandelhoyo@gmail.com>"
 
@@ -25,9 +11,6 @@ RUN apk add --update \
         mariadb-connector-c && \
     rm -rf /var/cache/apk/*
 
-
-COPY --from=binary /go/bin/dockerize /usr/local/bin
-
 RUN curl -J -L -o /tmp/bashio.tar.gz \
         "https://github.com/hassio-addons/bashio/archive/v0.7.1.tar.gz" \
     && mkdir /tmp/bashio \
@@ -39,12 +22,6 @@ RUN curl -J -L -o /tmp/bashio.tar.gz \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
     && rm -fr /tmp/* 
 
-ENV CRON_TIME="0 3 * * sun" \
-    MYSQL_HOST="mysql" \
-    MYSQL_PORT="3306" \
-    TIMEOUT="10s" \
-    MYSQLDUMP_OPTS="--quick"
-
 COPY ["run.sh", "backup.sh", "/delete.sh", "/"]
 RUN mkdir /backup && \
     chmod 777 /backup && \ 
@@ -52,9 +29,6 @@ RUN mkdir /backup && \
     touch /mysql_backup.log && \
     chmod 666 /mysql_backup.log
 
-VOLUME ["/backup"]
+CMD [ "/run.sh" ]
 
-HEALTHCHECK --interval=2s --retries=1800 \
-	CMD stat /HEALTHY.status || exit 1
-
-ENTRYPOINT dockerize -wait tcp://${MYSQL_HOST}:${MYSQL_PORT} -timeout ${TIMEOUT} /run.sh
+LABEL org.opencontainers.image.source https://github.com/PrimusNZ/hassio-addons
