@@ -13,14 +13,33 @@
     "armhf"
   ],
   "map": [
-    "backup:rw",
-    "ssl"
+    "media:rw"
   ],
   "boot": "auto",
+  "options": {
+    "cron_time": "0 3 * * sun",
+    "backup_folder": "/media/Backups/MySQL",
+    "max_backups": 30,
+    "mysql_host": "localhost",
+    "mysql_user": "admin",
+    "mysql_pass": "admin",
+    "mysql_db": "homeassistant",
+    "TZ": "Pacific/Auckland",
+    "gzip_level": 6,
+    "mysqldump_opts": "--quick"
+  },
   "schema": {
-    "PUID": "int",
-    "PGID": "int",
-    "TZ": "str?"
+    "cron_time": "str",
+    "backup_folder": "str",
+    "max_backups": "int",
+    "mysql_host": "str",
+    "mysql_user": "str",
+    "mysql_pass": "str",
+    "mysql_db": "str",
+    "gzip_level": "int",
+    "mysqldump_opts": "str?",
+    "mysql_ssl_opts": "str?",
+    "TZ": "str"
   },
   "image": "ghcr.io/primusnz/hassio-addons/{arch}-mysql-cron-backup"
 }
