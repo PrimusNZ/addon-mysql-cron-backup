@@ -1,14 +1,16 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-RUN apt -y install \
+RUN apt-get update
+RUN apt-get install -y \
         tzdata \
         bash \
         mariadb-client \
         gzip \
         openssl \
-        curl && \
-    rm -rf /var/cache/apk/*
+        curl
+RUN apt-get clean -y
+RUN rm -rf /var/lib/apt/lists/*
 
 COPY ["run.sh", "backup.sh", "/delete.sh", "/"]
 RUN chmod 755 /run.sh /backup.sh /delete.sh && \

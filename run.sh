@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/with-contenv bashio
+set -e
+
 tail -F /mysql_backup.log &
 
 touch /HEALTHY.status
