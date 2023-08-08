@@ -1,10 +1,10 @@
 {
   "name": "MySQL Cron Backup",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "slug": "mysql-cron-backup",
   "legacy": false,
   "init": false,
-  "description": "A fork of Sonarr to work with movies à la Couchpotato",
+  "description": "Addon to routinely back up a remote MySQL Database.",
   "url": "https://github.com/PrimusNZ/addon-mysql-cron-backup",
   "startup": "services",
   "arch": [
