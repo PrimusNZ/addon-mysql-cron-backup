@@ -12,6 +12,9 @@
 # Get database name(s): try read from file, else get from env
 # Note: when from file, there can be one database name per line in that file
 [ -z "$(bashio::config mysql_db)" ] || { MYSQL_DATABASE=$(bashio::config mysql_db); }
+
+[ -z "$(bashio::config mysql_port)" ] || { MYSQL_PORT=$(bashio::config mysql_port); }
+[ -z "${MYSQL_PORT}" ] && { MYSQL_PORT=3306; }
 # Get level from env, else use 6
 [ -z "$(bashio::config gzip_level)" ] && { GZIP_LEVEL=6; }
 

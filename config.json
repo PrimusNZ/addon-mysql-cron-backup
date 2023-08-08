@@ -1,6 +1,6 @@
 {
   "name": "MySQL Cron Backup",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "slug": "mysql-cron-backup",
   "legacy": false,
   "init": false,
@@ -33,6 +33,7 @@
     "backup_folder": "str",
     "max_backups": "int",
     "mysql_host": "str",
+    "mysql_port": "int?",
     "mysql_user": "str",
     "mysql_pass": "str",
     "mysql_db": "str",
