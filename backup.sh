@@ -26,26 +26,29 @@
 # Get level from env, else use 6
 [ -z "$(bashio::config gzip_level)" ] && { GZIP_LEVEL=6; }
 
+[ -z "$(bashio::config max_backups)" ] || { MAX_BACKUPS=$(bashio::config max_backups); }
+[ -z "${MAX_BACKUPS}" ] && { MAX_BACKUPS=10; }
+
 DATE=$(date +%Y%m%d%H%M)
 echo "=> Backup started at $(date "+%Y-%m-%d %H:%M:%S")"
 DATABASES=${MYSQL_DATABASE:-${MYSQL_DB:-$(mysql -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYSQL_USER" -p"$MYSQL_PASS" $MYSQL_SSL_OPTS -e "SHOW DATABASES;" | tr -d "| " | grep -v Database)}}
-for db in ${DATABASES}
+for DATABASE in ${DATABASES}
 do
-  if  [[ "$db" != "information_schema" ]] \
-      && [[ "$db" != "performance_schema" ]] \
-      && [[ "$db" != "mysql" ]] \
-      && [[ "$db" != "sys" ]] \
-      && [[ "$db" != _* ]]
+  if  [[ "$DATABASE" != "information_schema" ]] \
+      && [[ "$DATABASE" != "performance_schema" ]] \
+      && [[ "$DATABASE" != "mysql" ]] \
+      && [[ "$DATABASE" != "sys" ]] \
+      && [[ "$DATABASE" != _* ]]
   then
-    echo "==> Dumping database: $db"
-    FILENAME="$(bashio::config backup_folder)/$DATE.$db.sql"
-    LATEST="$(bashio::config backup_folder)/latest.$db.sql"
-    if mysqldump --single-transaction $MYSQL_DUMP_OPTS -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYSQL_USER" -p"$MYSQL_PASS" $MYSQL_SSL_OPTS "$db" > "$FILENAME"
+    echo "==> Dumping database: $DATABASE"
+    FILENAME="$(bashio::config backup_folder)/$DATE.$DATABASE.sql"
+    LATEST="$(bashio::config backup_folder)/latest.$DATABASE.sql"
+    if mysqldump --single-transaction $MYSQL_DUMP_OPTS -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYSQL_USER" -p"$MYSQL_PASS" $MYSQL_SSL_OPTS "$DATABASE" > "$FILENAME"
     then
       EXT=
       if [ -z "${USE_PLAIN_SQL}" ]
       then
-        echo "==> Compressing $db with LEVEL $GZIP_LEVEL"
+        echo "==> Compressing $DATABASE with LEVEL $GZIP_LEVEL"
         gzip "-$GZIP_LEVEL" -f "$FILENAME"
         EXT=.gz
         FILENAME=$FILENAME$EXT
@@ -58,7 +61,7 @@ do
       if [ -n "$MAX_BACKUPS" ]
       then
         # Execute the delete script, delete older backup or other custom delete script
-        /delete.sh "$db" $EXT
+        /delete.sh "$DATABASE" $EXT
       fi
     else
       rm -rf "$FILENAME"
