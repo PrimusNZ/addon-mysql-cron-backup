@@ -43,6 +43,7 @@ do
     echo "==> Dumping database: $DATABASE"
     FILENAME="$(bashio::config backup_folder)/$DATE.$DATABASE.sql"
     LATEST="$(bashio::config backup_folder)/latest.$DATABASE.sql"
+    echo "===> mysqldump --single-transaction $MYSQL_DUMP_OPTS -h '$MYSQL_HOST' -P '$MYSQL_PORT' -u '$MYSQL_USER' -p'$MYSQL_PASS' $MYSQL_SSL_OPTS '$DATABASE' > '$FILENAME'"
     if mysqldump --single-transaction $MYSQL_DUMP_OPTS -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u "$MYSQL_USER" -p"$MYSQL_PASS" $MYSQL_SSL_OPTS "$DATABASE" > "$FILENAME"
     then
       EXT=
