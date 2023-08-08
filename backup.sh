@@ -26,7 +26,8 @@
 
 
 # Get level from env, else use 6
-[ -z "$(bashio::config gzip_level)" ] && { GZIP_LEVEL=6; }
+[ -z "$(bashio::config gzip_level)" ] || { GZIP_LEVEL=$(bashio::config gzip_level); }
+[ -z "${GZIP_LEVEL}" ] && { echo "=> GZIP_LEVEL cannot be empty" && exit 1; }
 
 [ -z "$(bashio::config max_backups)" ] || { MAX_BACKUPS=$(bashio::config max_backups); }
 [ -z "${MAX_BACKUPS}" ] && { MAX_BACKUPS=10; }
