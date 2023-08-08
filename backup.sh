@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/with-contenv bashio
 
 # Get hostname: try read from file, else get from env
 [ -z "$(bashio::config mysql_host)" ] || { MYSQL_HOST=$(bashio::config mysql_host); }

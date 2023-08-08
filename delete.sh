@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/with-contenv bashio
 
 db=$1
 EXT=$2
