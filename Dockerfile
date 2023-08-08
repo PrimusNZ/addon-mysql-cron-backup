@@ -8,7 +8,8 @@ RUN apt-get install -y \
         mariadb-client \
         gzip \
         openssl \
-        curl
+        curl \
+        cron
 RUN apt-get clean -y
 RUN rm -rf /var/lib/apt/lists/*
 
