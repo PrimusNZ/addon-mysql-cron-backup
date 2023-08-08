@@ -1,0 +1,26 @@
+{
+  "name": "MySQL Cron Backup",
+  "version": "0.0.1",
+  "slug": "mysql-cron-backup",
+  "legacy": false,
+  "init": false,
+  "description": "A fork of Sonarr to work with movies à la Couchpotato",
+  "url": "https://github.com/PrimusNZ/addon-mysql-cron-backup",
+  "startup": "services",
+  "arch": [
+    "aarch64",
+    "amd64",
+    "armhf"
+  ],
+  "map": [
+    "backup:rw",
+    "ssl"
+  ],
+  "boot": "auto",
+  "schema": {
+    "PUID": "int",
+    "PGID": "int",
+    "TZ": "str?"
+  },
+  "image": "ghcr.io/primusnz/hassio-addons/{arch}-mysql-cron-backup"
+}
