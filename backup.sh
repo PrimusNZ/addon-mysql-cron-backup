@@ -15,7 +15,7 @@
 [ -z "${MYSQL_DATABASE}" ] && { echo "=> MYSQL_DATABASE cannot be empty" && exit 1; }
 
 [ -z "$(bashio::config mysql_port)" ] || { MYSQL_PORT=$(bashio::config mysql_port); }
-[ -z "${MYSQL_PORT}" ] && { MYSQL_PORT=3306; }
+[ -z "${MYSQL_PORT}" ] && { echo "=> MYSQL_PORT cannot be empty" && exit 1; }
 
 [ -z "$(bashio::config mysql_ssl_opts)" ] || { MYSQL_SSL_OPTS=$(bashio::config mysql_ssl_opts); }
 [ -z "${MYSQL_SSL_OPTS}" ] && { MYSQL_SSL_OPTS=""; }
