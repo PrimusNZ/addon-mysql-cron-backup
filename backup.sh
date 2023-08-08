@@ -17,11 +17,13 @@
 [ -z "$(bashio::config mysql_port)" ] || { MYSQL_PORT=$(bashio::config mysql_port 3306); }
 [ -z "${MYSQL_PORT}" ] && { echo "=> MYSQL_PORT cannot be empty" && exit 1; }
 
-[ -z "$(bashio::config mysql_ssl_opts)" ] || { MYSQL_SSL_OPTS=$(bashio::config mysql_ssl_opts ""); }
+[ -z "$(bashio::config mysql_ssl_opts)" ] || { MYSQL_SSL_OPTS=$(bashio::config mysql_ssl_opts); }
 [ -z "${MYSQL_SSL_OPTS}" ] && { MYSQL_SSL_OPTS=""; }
+[ "${MYSQL_SSL_OPTS}" = "null" ] && { MYSQL_SSL_OPTS=""; }
 
-[ -z "$(bashio::config mysqldump_opts)" ] || { MYSQL_DUMP_OPTS=$(bashio::config mysqldump_opts ""); }
-[ -z "${MYSQL_DUMP_OPTS}" ] && { MYSQL_DUMP_OPTS=""; }
+[ -z "$(bashio::config mysqldump_opts)" ] || { MYSQL_DUMP_OPTS=$(bashio::config mysqldump_opts "--quick" ); }
+[ -z "${MYSQL_DUMP_OPTS}" ] && { MYSQL_DUMP_OPTS="--quick"; }
+
 
 # Get level from env, else use 6
 [ -z "$(bashio::config gzip_level)" ] && { GZIP_LEVEL=6; }
