@@ -1,6 +1,6 @@
 {
   "name": "MySQL Cron Backup",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "slug": "mysql-cron-backup",
   "legacy": false,
   "init": false,
@@ -13,12 +13,12 @@
     "armhf"
   ],
   "map": [
-    "media:rw"
+    "backup:rw"
   ],
   "boot": "auto",
   "options": {
     "cron_time": "0 3 * * sun",
-    "backup_folder": "/media/Backups/MySQL",
+    "backup_folder": "/backup/MySQL",
     "max_backups": 30,
     "mysql_host": "localhost",
     "mysql_user": "admin",
